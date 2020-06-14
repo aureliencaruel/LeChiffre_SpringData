@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+
+	<Appenders>
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %C{1.}:%L - %m%n" />
+		</Console>
+
+		<RollingFile name="ApplicationLog" fileName="D:/tmp/toto-logs.log"
+			filePattern="D:/tmp/toto-logs_%d{yyyy-MM-dd}.log"
+			ignoreExceptions="false">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %C{1.}:%L - %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="ApplicationError" fileName="D:/tmp/toto-error.log"
+			filePattern="D:/tmp/toto-error_%d{yyyy-MM-dd}.log"
+			ignoreExceptions="false">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %C{1.}:%L - %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+
+
+
+	</Appenders>
+
+	<Loggers>
+
+		<Logger name="com" level="info" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="ApplicationLog" level="info" />
+			<AppenderRef ref="ApplicationError" level="error" />
+		</Logger>
+
+		<!-- Log SQL statements -->
+		<Logger name="org.hibernate.SQL" level="info" additivity="false">
+			<AppenderRef ref="ApplicationLog" level="info" />
+			<AppenderRef ref="ApplicationError" level="error" />
+		</Logger>
+
+		<!-- Log JDBC bind parameters -->
+		<Logger name="org.hibernate.type.descriptor.sql" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" /><!-- commenter/décommenter cette ligne pur afficher/masquer les paramèrs-->
+			<AppenderRef ref="ApplicationLog" level="info" />
+			<AppenderRef ref="ApplicationError" level="error" />
+		</Logger>
+
+		<Root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="ApplicationLog" level="info" />
+			<AppenderRef ref="ApplicationError" level="error" />
+		</Root>
+
+
+	</Loggers>
+
+</Configuration>
