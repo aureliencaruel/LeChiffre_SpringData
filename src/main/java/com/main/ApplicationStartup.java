@@ -2,6 +2,7 @@ package com.main;
 
 import com.modele.Voiture;
 import com.repo.VoitureRepository;
+import com.service.VoitureService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +28,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
     @Autowired
     VoitureRepository repo;
+
+    @Autowired
+    VoitureService service;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -63,11 +67,18 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             Voiture voiture10 = new Voiture("Peugeot 806", "Peugeot", "J9887TR", new SimpleDateFormat("dd/MM/yyyy").parse("12/10/2013"), 100000);
             repo.save(voiture10);
 
-            logger.info("TP 8 - listeVoitureAncienne = " + repo.listeVoitureAncienne());
-            logger.info("TP 8 - listeVoitureMarque Renault = " + repo.listeVoitureMarque("Renault"));
-            logger.info("TP 8 - troisVoituresImmatriculeesIlyALePlusLongemps = " + repo.troisVoituresImmatriculeesIlyALePlusLongemps());
+            // affichage de tous les véhicules en bdd
+            Iterator<Voiture> voitures = repo.findAll().iterator();
+            while (voitures.hasNext()) {
+                Voiture voiture_ = voitures.next();
+                logger.info("voiture " + voiture_.toString());
+            }
 
-            logger.info("TP 9 - findByMarque = " + repo.findByMarque("Renault"));
+            logger.info("TP 7 = " + service.getTP7A());
+            logger.info("TP 7 = " + service.getTP7B());
+            logger.info("TP 7 = " + service.getTP7C());
+            logger.info("TP 9 = " + service.getTP9());
+            logger.info("TP 10 = " + service.getTP10());
 
 
         } catch (ParseException e) {
@@ -75,12 +86,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         }
 
 
-        // affichage de tous les véhicules en bdd
-        Iterator<Voiture> voitures = repo.findAll().iterator();
-        while (voitures.hasNext()) {
-            Voiture voiture_ = voitures.next();
-            logger.info("voiture " + voiture_.toString());
-        }
+
 
 
     }

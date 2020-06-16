@@ -1,6 +1,7 @@
 package com.repo;
 
 import com.modele.Voiture;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,7 +21,7 @@ public interface VoitureRepository extends CrudRepository<Voiture, Integer>, Jpa
     List<Voiture> listeVoitureMarque(@Param("marque") String marque);
 
     @Query("SELECT b FROM Voiture b ORDER BY dateImmatriculation DESC")
-    List<Voiture> troisVoituresImmatriculeesIlyALePlusLongemps();
+    List<Voiture> troisVoituresImmatriculeesIlyALePlusLongemps(Pageable pageable);
 
     List<Voiture> findByMarque(String renault);
 }
